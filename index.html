@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>re:fresh</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
+    body {
+      background: linear-gradient(135deg,
+        #4E008C 0%,
+        #8A00C4 40%,
+        #E100FF 75%,
+        #FF66CC 100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    h1 {
+      margin: 0.2em 0;
+      font-size: 3em;
+    }
+    .light { font-weight: 300; }
+    .bold  { font-weight: 700; }
+    .links {
+      margin: 1em 0;
+    }
+    .links a {
+      color: #fff;
+      text-decoration: underline;
+      margin: 0 0.5em;
+      cursor: pointer;
+    }
+    #content {
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      max-width: 600px;
+      padding: 1.5em;
+      border-radius: 8px;
+      text-align: left;
+      display: none;
+      margin-top: 1em;
+      overflow-y: auto;
+      max-height: 60vh;
+    }
+    #content h2 {
+      color: #7F00FF;
+      margin-top: 0;
+    }
+    #close {
+      float: right;
+      cursor: pointer;
+      font-size: 1em;
+      color: #999;
+    }
+    a[href^="#"] { /* keep it white even after visited */
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1><span class="light">re:</span><span class="bold">fresh</span></h1>
+
+  <div class="links">
+    <a href="#privacy-policy" id="ppLink">Privacy Policy</a> |
+    <a href="#terms-of-service" id="tosLink">Terms of Service</a> |
+    <a href="mailto:q.hmd08@outlook.com">Contact Us</a>
+  </div>
+
+  <div id="content">
+    <span id="close">✕</span>
+    <div id="inner"></div>
+  </div>
+
+  <script>
+    const ppText = `
+      <h2>Privacy Policy</h2>
+      
+      <h3>Introduction</h3>
+      <p>re:fresh is a Google Workspace Gmail(TM) add-on (the "Add-on") designed to help you manage your inbox by automatically handling older unread emails. This Privacy Policy explains how the Add-on operates and how it handles your data. We are committed to protecting your privacy and want you to understand what information is (and isn't) collected or used when you use re:fresh. By using the Add-on, you acknowledge that you have read and agree to the data practices described in this Policy.</p>
+      
+      <h3>How the Add-on Works</h3>
+      <p>re:fresh works within your Gmail(TM) account to perform a series of automated actions on your older unread email threads. In summary, once you configure and run the Add-on, it will:</p>
+      <ol>
+        <li><strong>Scan for old unread emails</strong>: Identify all unread Gmail(TM) threads that are older than a user-defined number of days (you choose the threshold, e.g., 14 days, 30 days, etc.).</li>
+        <li><strong>Send a custom auto-reply</strong>: For each of those threads, send an automatic reply using a custom message that you provide (for example, a message explaining that you haven't responded yet and asking the sender to resend the email if it's still important or urgent).</li>
+        <li><strong>Mark as read and archive</strong>: After sending the auto-reply, mark those email threads as "read" and move them to your Gmail(TM) archive, removing them from your inbox to help you start fresh.</li>
+        <li><strong>Exclude certain senders</strong>: The Add-on is smart about not replying to certain types of emails. It will skip threads where the last sender is an automated or no-reply address (for instance, notifications from platforms like GitHub, GitLab, Bitbucket, or other system-generated emails), so it doesn't send unnecessary responses to those sources.</li>
+        <li><strong>Optional bounce cleanup</strong>: If any auto-reply results in a bounce-back error message (for example, an email from a "mailer-daemon" or mail delivery subsystem saying the message could not be delivered), the Add-on can automatically detect and delete those bounce-back emails from your inbox (this option can be enabled or disabled by you).</li>
+      </ol>
+      <p>All of these actions take place within your Gmail(TM) environment with your authorization. You control the settings (such as the age threshold for emails and the content of the auto-reply message) through the Add-on's interface. The Add-on runs entirely within your Gmail(TM) account—there are no external servers processing your emails.</p>
+      
+      <h3>Data Handling & Privacy</h3>
+      <p>Your privacy is our priority. re:fresh is built to run entirely within your Google account's Gmail(TM) environment, which means all the processing of your emails happens on Google's servers under your Google account. We (the developer of the Add-on) do not have access to your email content, and we do not transmit or store your data outside of Gmail(TM). Here are the key points regarding data handling:</p>
+      <ul>
+        <li><strong>No External Data Transfer</strong>: The Add-on does not send any of your data outside of Google's systems. It works within Gmail(TM) itself. No email content, subjects, recipients, or any metadata from your emails is ever transmitted to the developer or any third party. There is no external server or database receiving your information – everything stays within your own Google account.</li>
+        <li><strong>No Data Collection or Logging</strong>: We do not collect, log, or store any personal data from your use of the Add-on. We (the developer) cannot see the content of your emails, the people you communicate with, or any details about your mailbox. The Add-on's operations (scanning messages, sending replies, marking them read/archived) are performed by Google's systems on your behalf, without sending any of that information to us. We do not keep copies of your emails or any details about them.</li>
+        <li><strong>No Sharing or Selling of Data</strong>: Because we do not collect your personal data or email content in the first place, we of course do not share, sell, or disclose it to any third parties. Your email data remains private and under your control at all times. The developer of re:fresh has no access to your information and therefore cannot share it with anyone.</li>
+        <li><strong>In-App Data Use Only</strong>: Any permissions you grant to the Add-on are used strictly to perform the functionalities you expect (scanning for old messages, sending your reply, etc.). The Add-on only accesses your email data when it needs to execute those specific features, and it only uses the data necessary for that purpose. For example, it reads an email's date to check if it's older than your threshold, and reads the sender's address to send your reply. It does not use any email data for any other reason outside of these actions.</li>
+        <li><strong>Developer Access</strong>: By design, the developer of the Add-on has no ability to read or access your emails or any details about them. All email scanning and replying is handled automatically by Google's Gmail(TM) service once you've granted permission. The developer does not receive any copies of your emails or even know which messages were processed. We also do not collect any analytics that would compromise your email privacy (for instance, we don't log email subject lines or addresses in any external system).</li>
+        <li><strong>Security and Google Infrastructure</strong>: re:fresh runs on Google Apps Script, which means it executes on Google's secure infrastructure. Your data is protected by Google's security measures (such as encryption in transit and at rest) during the Add-on's operation. We do not introduce any additional risk to your data. However, remember that your use of Gmail(TM) is also subject to Google's own privacy and security practices. We rely on Google's robust security to keep your Gmail(TM) data safe while the Add-on is working.</li>
+        <li><strong>Compliance with Google Policies</strong>: We adhere to Google's policies for third-party add-ons. In particular, the Add-on's use of information from your Gmail(TM) account abides by the Google API Services User Data Policy (including its "Limited Use" requirements). This means we only use the Gmail(TM) data we access to provide the functionality of re:fresh to you, and for no other purpose. We do not use that data for advertising, profiling, or anything unrelated to the core features of the Add-on.</li>
+      </ul>
+      <p>In short, no personal data is ever stored or shared by the Add-on's developer. All of your email content and metadata stays within your Gmail(TM) account. We have engineered re:fresh so that we (the developer) never see your information. You enjoy the benefits of the Add-on's features while your data remains private.</p>
+      
+      <h3>Permissions Explained</h3>
+      <p>To perform its functions, re:fresh requires certain permissions to access your Gmail(TM) account. When you install the Add-on, Google will ask you to grant specific Gmail(TM) permissions. Below we explain each permission and how it is used, so you know exactly what you are authorizing and why:</p>
+      <ul>
+        <li><strong>Read your emails</strong>: The Add-on needs the ability to read your Gmail(TM) messages and their metadata. This permission is used only to find and identify the threads that meet your criteria (unread and older than the number of days you specified). The Add-on checks attributes like the date an email was received, whether it's marked as read or unread, and the sender's address. It may also read the subject line or snippet to ensure the email isn't from a no-reply sender. This reading is done by the script to decide which threads get the auto-reply. We do not store or transmit any of the content that is read – it's used on the fly to perform the filtering and replying action, then immediately forgotten by the Add-on once the action is done.</li>
+        <li><strong>Send email on your behalf</strong>: This permission allows the Add-on to send the auto-reply message from your Gmail(TM) account. With this access, the Add-on can generate an email reply in each selected thread as if you had composed and sent it yourself. The only emails the Add-on will send are the ones you've configured: the standardized auto-reply message to the appropriate recipients (the senders of the old threads). It will not send any emails that you haven't approved through the Add-on's settings, and it will not send messages to anyone except as needed to reply to those threads. The content of the sent auto-reply is exactly what you write in the Add-on's settings – the Add-on does not alter it or include any additional data.</li>
+        <li><strong>Modify your Gmail(TM) (read, label, delete messages)</strong>: This permission lets the Add-on modify messages in your mailbox. Specifically, re:fresh uses this to mark messages as read and to move them to the archive after sending the reply. This helps clear them out of your inbox. Additionally, if you have enabled the optional bounce deletion feature, the Add-on will use this permission to delete any bounce-back error emails that arrive as a result of your auto-replies (these are typically from "mailer-daemon" addresses). The Add-on will not delete any other messages besides those bounce notifications, and it will only archive the threads that it replied to per your request. It does not otherwise alter your emails except for the intended organizational steps (marking as read, adding an "Archived" label which is how Gmail(TM) archives mail, or moving to Trash the bounce messages when applicable).</li>
+        <li><strong>Connect to an external service</strong>: None. re:fresh does not require access to any service outside of Google/Gmail(TM). It does not use any external APIs or integrate with any third-party platforms in a way that requires additional permissions. All operations are confined to your Gmail(TM). Furthermore, the Add-on does not require you to create any external account or profile. You do not need to sign up on any website or provide any credentials beyond your Google account. The Add-on runs using your existing Google login and the permissions you grant through Google's standard OAuth2 consent. No additional authentication (like external usernames/passwords) is needed or asked for.</li>
+      </ul>
+      <p>Why so many Gmail(TM) permissions? Depending on how Google phrases the permissions during installation, some of the above capabilities might be grouped together. For example, Google might present a single permission like "Read, compose, send, and permanently delete all your email from Gmail(TM)" – which sounds broad. This is the standard scope required for an add-on that needs to read and manage messages. re:fresh uses that access only for the purposes described: reading to find relevant messages, sending your replies, marking read/archiving, and deleting bounce-backs if enabled. It does not otherwise use your Gmail(TM) access. We want to reassure you that even though the scope sounds wide, the Add-on's actual behavior is narrow and controlled by you.</p>
+      
+      <h3>Limitations</h3>
+      <p>We want to clarify the scope and limitations of this Privacy Policy and the re:fresh Add-on:</p>
+      <ul>
+        <li><strong>Scope of Policy</strong>: This Privacy Policy applies solely to the re:fresh add-on and how it processes your Gmail(TM) data. It does not cover how Google itself handles your data within Gmail(TM) or any other Google services you use. Gmail(TM) is a product of Google, and your use of Gmail(TM) (with or without this Add-on) is governed by Google's own privacy policy and terms of service. We encourage you to review Google's Privacy Policy to understand how Google manages and protects your Gmail(TM) data at a broader level. Our responsibility is limited to how the re:fresh Add-on interacts with your account as described in this document.</li>
+        <li><strong>No Control Over Gmail(TM) Service</strong>: Because re:fresh runs within Gmail(TM), it relies on Gmail(TM) and Google's infrastructure to function. While we endeavor to ensure the Add-on works smoothly, we have no control over any limitations or outages of Gmail(TM) itself or changes that Google might make to its services. For example, if Gmail(TM) experiences downtime or if Google changes how add-on permissions work, the re:fresh Add-on's functionality might be affected. Similarly, Google's built-in spam filters and security systems operate separately from this Add-on; the Add-on does not override or interfere with Google's normal email processing.</li>
+        <li><strong>Security Measures</strong>: We rely on Google's security measures to protect your data, since all data processing happens on Google's servers. Google uses industry-standard security (such as encryption) to protect your Gmail(TM) content. The Add-on doesn't reduce those protections, but it also doesn't add additional encryption beyond what Google provides (because no data leaves Google's environment). While no system can be 100% secure, using the Add-on does not introduce new security risks to your email content. Nevertheless, it's important that you keep your own Google account secure (for example, safeguard your password and enable two-factor authentication) to prevent unauthorized access to your emails or the Add-on.</li>
+        <li><strong>User Responsibility for Auto-Reply Content</strong>: The content of your automatic reply is determined by you. We do not screen or restrict what you write in your custom message. Please be mindful that this message will be sent to the senders of your old emails on your behalf. You should not include confidential or sensitive personal information in your auto-reply that you wouldn't want others to see. While this is more of a usage guideline than a privacy issue, it's an important limitation: the Add-on cannot distinguish between a "good" or "bad" auto-reply message. It will send whatever you have written. You are responsible for the consequences of the content in that message.</li>
+        <li><strong>Data Retention and Deletion</strong>: The Add-on does not store your data, so we do not retain any personal information outside of your Gmail(TM). If you decide to stop using re:fresh, you can uninstall the Add-on from your Google Workspace Marketplace or revoke its access via your Google account's security settings. Once removed, the Add-on no longer has any permissions to access your account. Because we never stored any of your email data, there is nothing we need to delete on our side. Any emails that were processed by the Add-on remain in your Gmail(TM) (for example, emails that were archived will stay in your Gmail(TM) archive until you choose to delete them, and any bounce emails that were deleted would be in your Gmail(TM) Trash for a period of time before Gmail(TM) permanently removes them). It's a good idea to review the changes made (like archived messages) in your Gmail(TM) to ensure you're satisfied with the results.</li>
+        <li><strong>Third-Party Services</strong>: The Add-on does not send data to any third-party services. However, if any of your email threads involve third-party services (for instance, an email thread is actually a notification from another app, or your auto-reply triggers some external system), those interactions are outside the scope of this Add-on. As an example, if you corresponded with a service and you send an auto-reply to that service via re:fresh, that service's response or handling of your reply is governed by their policies, not ours. This Privacy Policy only covers what we do (or rather, don't do) with your data via the Add-on.</li>
+        <li><strong>Children's Privacy</strong>: re:fresh is not specifically directed to children under 13. We do not knowingly collect any personal information (or any information at all) from users. Given that the Add-on does not collect or transmit user data, there are no special provisions needed for children's data. However, if you are under the age of 13, you should only use Google services (including this Add-on) with appropriate parental consent, in compliance with Google's terms.</li>
+      </ul>
+      <p>In summary, the Add-on's privacy assurances have certain boundaries: they cover your use of re:fresh within Gmail(TM). Beyond that, your data remains under Gmail(TM)/Google's control and your own control. We want to be transparent that, while we handle your data with care by not handling it at all outside your account, we cannot provide guarantees about Gmail(TM) itself or actions you take with your data (like what you include in messages).</p>
+      
+      <h3>Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. As the Add-on evolves or as requirements change (for example, due to changes in law or Google's policies), we might make modifications to how we describe our data practices. If we make any significant changes, we will update this document and change the "Last updated" date at the top. For substantial changes, we may also provide a more prominent notice (such as on the Add-on's Marketplace listing page or via an in-app notification) to inform you.</p>
+      <p>We encourage you to review this Privacy Policy periodically. Your continued use of the re:fresh Add-on after any changes to this Policy will constitute your acceptance of those changes. If you do not agree with an updated policy, you should discontinue use of the Add-on and uninstall it.</p>
+      
+      <h3>Contact</h3>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy or how re:fresh handles your data, please contact us. We (the developer) are happy to address your inquiries. You can reach out via email at <a href="mailto:q.hmd08@outlook.com">q.hmd08@outlook.com</a>.</p>
+    `;
+
+    const tosText = `
+      <h2>Terms of Service</h2>
+      
+      <h3>Acceptance of Terms</h3>
+      <p>By installing, accessing, or using the re:fresh Gmail(TM) Add-on (the "Add-on"), you ("the user") agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not install or use the Add-on. This is a legally binding agreement between you and the developer/provider of the re:fresh Add-on ("we," "us," or "the developer"). These Terms govern your use of the Add-on.</p>
+      <p>Please note that your use of the Add-on is also subject to our Privacy Policy (see above), which describes how we handle your data. By using re:fresh, you acknowledge that you have read and understood the Privacy Policy and agree to its terms as well.</p>
+      <p>We reserve the right to update or modify these Terms in the future. If we make changes, we will follow the process outlined in the Changes to Terms section below. It's your responsibility to review these Terms periodically. Continuing to use the Add-on after changes are made means you accept the revised Terms.</p>
+      
+      <h3>User Responsibilities</h3>
+      <p>When using re:fresh, you agree to use it in a responsible manner. You are solely responsible for your use of the Add-on and for any consequences that result. In particular, you agree to the following responsibilities and restrictions:</p>
+      <ul>
+        <li><strong>Compliance with Laws and Google Policies</strong>: You will use the Add-on in compliance with all applicable laws, regulations, and Google's own policies. This includes not using the Add-on in a way that violates Gmail(TM)'s terms of service or Google's program policies. You should not use re:fresh to do anything that would be illegal or unauthorized if done manually (for example, you must not use it to harass someone or to send unlawful content).</li>
+        <li><strong>Appropriate Use of the Add-on</strong>: You will only use re:fresh for its intended purpose of helping manage your own Gmail(TM) inbox. Do not misuse the Add-on. Misuse includes, but isn't limited to: attempting to use it on someone else's account without permission, using it to send spam or mass unsolicited messages, or trying to exploit the Add-on to do things it wasn't designed to do. The Add-on is intended to send polite auto-replies and organize your inbox – it is not a tool for sending marketing emails or any form of abusive messaging.</li>
+        <li><strong>Content of Auto-Reply Messages</strong>: You are responsible for the content of the custom auto-reply message you provide to the Add-on. You agree that your auto-reply content will not be offensive, defamatory, or infringe upon anyone's rights (such as privacy, copyright, or other intellectual property rights). We (the developer) are not responsible for the text you choose to send via the Add-on. Please ensure that your message is appropriate and lawful, as it will be sent out to other parties on your behalf.</li>
+        <li><strong>No Tampering or Reverse Engineering</strong>: You will not attempt to copy, modify, decompile, reverse engineer, or otherwise tamper with the Add-on's code or functionality. The Add-on is provided to you for use as-is; any attempt to extract the source code, defeat the security features, or extend it in unauthorized ways is prohibited. Likewise, you will not attempt to bypass the permissions or access controls put in place by Google or by the Add-on.</li>
+        <li><strong>No Harmful Activities</strong>: You will not use the Add-on to transmit viruses, malware, or any harmful code. You will not use the Add-on in a manner that could damage, disable, or impair the operation of Gmail(TM), Google's services, or others' use of the same. Essentially, don't use re:fresh in any way that causes harm or disruption to any service, system, or other users.</li>
+        <li><strong>Account Security</strong>: You are responsible for maintaining the security of your Google account and the device on which you use Gmail(TM). If you install the Add-on, ensure that your Google login credentials remain confidential. Do not share access to your Google account with unauthorized persons, as they could misuse the Add-on under your account. If you suspect that someone has gained unauthorized access to your Google account or the Add-on, you should revoke the Add-on's permissions and secure your account immediately. We recommend using Google's security features (like two-factor authentication) to protect your account.</li>
+        <li><strong>Limitations of Use</strong>: You understand that the Add-on may impose certain limits (for example, Gmail(TM) itself has daily sending limits for emails). You agree not to attempt to circumvent those limits. If the Add-on or Gmail(TM) stops you from performing an action (like sending too many emails in a short time), you will not try to use other means to overcome that restriction. These limits are often in place for security or to prevent abuse, and you should respect them.</li>
+      </ul>
+      <p>By following these guidelines, you help ensure that re:fresh remains useful and available for everyone. If you violate any of the above responsibilities, we may (at our discretion) terminate your access to the Add-on and you may also be in violation of Google's policies, which could lead to further action on Google's side (such as Google revoking the Add-on or other consequences).</p>
+      
+      <h3>Limitations of Liability</h3>
+      <p>Please read this section carefully – it limits the liability of the Add-on's developer. We are providing you this Add-on to help you manage your email, but we cannot accept liability for certain kinds of problems. By using the Add-on, you agree to these limitations on our liability:</p>
+      <ul>
+        <li><strong>As-Is, No Warranty</strong>: re:fresh is provided to you "as is" and "as available," without any warranties of any kind. We make no promises or guarantees that the Add-on will be perfect. In particular, we do not guarantee that the Add-on will meet all your requirements, or that it will always operate uninterrupted or error-free, or that any defects will be corrected. Use of the Add-on is at your own risk. To the fullest extent permitted by law, we disclaim all warranties, whether express or implied, including (but not limited to) implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</li>
+        <li><strong>No Indirect Damages</strong>: To the maximum extent allowed by law, we will not be liable for any indirect, incidental, special, consequential, or exemplary damages arising out of or relating to your use of (or inability to use) the Add-on. This means that if using the Add-on causes any kind of problem such as lost emails, lost data, being unable to find an email, damage to your relationships or business due to missed communications, or any other intangible loss, we are not responsible for those consequences. For example, if an important email was archived by the Add-on and you missed it, or if someone didn't get your auto-reply for some reason, any resulting issues are not something you can hold us liable for. You assume full responsibility for any outcomes that result from the use of the Add-on.</li>
+        <li><strong>Limit on Direct Damages</strong>: In the unlikely event that we are found liable for any claim arising from your use of the Add-on, our total cumulative liability will be limited to the amount (if any) that you paid for the Add-on's use. (Most likely, re:fresh is provided free of charge. If it is free, then our liability to you is zero dollars.) This limitation applies to any and all claims, whether based on warranty, contract, tort, or any other legal theory, even if we have been advised of the possibility of such damages. In plain language, we are not financially responsible for issues that occur from you using this free tool beyond, at most, refunding what you paid to use it — which is nothing in the case of a free add-on.</li>
+        <li><strong>Exceptions</strong>: Some jurisdictions do not allow the exclusion of certain warranties or limitations of liability. If you are in such a jurisdiction, some of the limitations above may not fully apply to you. In that case, our liability and warranties will be limited to the minimum extent permitted by applicable law. Nothing in these Terms is intended to exclude or restrict any liability that cannot be excluded by law. For example, certain consumer protection laws may confer rights that override the above limitations – we do not intend to override those rights where they apply. However, to the extent the law allows, we still disclaim warranties and limit our liability as described above.</li>
+      </ul>
+      <p>Remember, re:fresh is essentially a helper tool that acts on your instructions. You are choosing to use it, and you are responsible for how it's used and the effects it has on your email. We do not assume liability for your use of the Add-on beyond what is described in this section.</p>
+      
+      <h3>Changes to Terms</h3>
+      <p>We may revise or update these Terms of Service from time to time. When we do, we will post the updated version of the Terms (for example, on the Google Workspace Marketplace listing for the Add-on or on our website where this document is hosted). We will update the "Last updated" date to reflect when changes were made. If the changes are significant, we will take reasonable steps to inform you of the update, such as by posting a notice in the Add-on's description or via an email/notification if appropriate.</p>
+      <p>Your continued use of the re:fresh Add-on after changes to these Terms will constitute your acceptance of the revised Terms. If you do not agree to the new Terms, you must stop using the Add-on and uninstall it from your Google account.</p>
+      <p>It's your responsibility to review the Terms periodically, especially if we've notified you that they've changed. We recommend checking the Terms and Privacy Policy occasionally so you remain informed about the rules and your rights when using re:fresh.</p>
+      
+      <h3>Contact</h3>
+      <p>If you have any questions, feedback, or concerns regarding these Terms of Service, or if you need to contact the developer for any reason related to the Add-on, please reach out to us. You can contact the developer of re:fresh at <a href="mailto:q.hmd08@outlook.com">q.hmd08@outlook.com</a>. We will do our best to respond promptly and address your inquiry.</p>
+      <p>Thank you for using re:fresh. We hope it helps you manage your email more effectively. By providing this Add-on, our aim is to assist you while respecting your privacy and rights. If you have any issues or suggestions, do not hesitate to contact us. Happy emailing (and archiving)!</p>
+    `;
+
+    const content = document.getElementById('content');
+    const inner   = document.getElementById('inner');
+    const close   = document.getElementById('close');
+
+    function openSection(hash) {
+      if (hash === '#privacy-policy') {
+        inner.innerHTML = ppText;
+        content.style.display = 'block';
+      } else if (hash === '#terms-of-service') {
+        inner.innerHTML = tosText;
+        content.style.display = 'block';
+      }
+    }
+
+    window.addEventListener('load', () => openSection(location.hash));
+    window.addEventListener('hashchange', () => openSection(location.hash));
+
+    document.getElementById('ppLink').addEventListener('click', e => {
+      e.preventDefault();
+      location.hash = '#privacy-policy';
+    });
+    document.getElementById('tosLink').addEventListener('click', e => {
+      e.preventDefault();
+      location.hash = '#terms-of-service';
+    });
+
+    close.addEventListener('click', () => {
+      content.style.display = 'none';
+      history.replaceState(null, '', ' ');
+    });
+  </script>
+</body>
+</html>
