@@ -10,25 +10,45 @@
   />
   <style>
     html, body {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      overflow-y: auto !important;
+    }
+    
+    html::-webkit-scrollbar, 
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      width: 0 !important;
+      height: 0 !important;
+      display: none !important;
+      background: transparent !important;
+    }
+    
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: 'Inter', sans-serif;
       color: #fff;
+      overflow-x: hidden;
     }
+    
     body {
       background: linear-gradient(135deg,
         #4E008C 0%,
         #8A00C4 40%,
         #E100FF 75%,
         #FF66CC 100%
-      );
+      ) fixed;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       text-align: center;
+      min-height: 100vh;
+      padding-top: 15vh;
     }
+    
     h1 {
       margin: 0.2em 0;
       font-size: 3em;
@@ -73,24 +93,98 @@
       font-size: 1em;
       color: #999;
     }
-    a[href^="#"] { /* keep it white even after visited */
+    a[href^="#"] {
       color: #fff;
+    }
+    #how-it-works {
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      max-width: 600px;
+      padding: 1.5em;
+      border-radius: 8px;
+      text-align: left;
+      margin-top: 5em;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    #how-it-works {
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      max-width: 600px;
+      padding: 1.5em;
+      border-radius: 8px;
+      text-align: left;
+      margin: 5em auto 3em auto;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    #scroll-indicator {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      opacity: 0.5;
+      cursor: default;
+      user-select: none;
+      animation: pulse 3s infinite;
+      display: none;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.2; }
+      25% { opacity: 0.6; }
+      50% { opacity: 0.6; }
+      75% { opacity: 0.6; }
+      100% { opacity: 0.2; }
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 80vh;
     }
   </style>
 </head>
 <body>
-  <h1><span class="light">re:</span><span class="bold">fresh</span></h1>
-  <p class="tagline">Clear your inbox, start fresh</p>
-  
-  <div class="links">
-    <a href="privacy-policy.html" id="ppLink">Privacy Policy</a> |
-    <a href="terms.html" id="tosLink">Terms of Service</a> |
-    <a href="mailto:q.hmd08@outlook.com">Contact Us</a>
-  </div>
+  <div class="main-content">
+    <h1><span class="light">re:</span><span class="bold">fresh</span></h1>
+    <p class="tagline">Clear your inbox, start fresh</p>
+    
+    <div class="links">
+      <a href="privacy-policy.html" id="ppLink">Privacy Policy</a> |
+      <a href="terms.html" id="tosLink">Terms of Service</a> |
+      <a href="mailto:q.hmd08@outlook.com">Contact Us</a>
+    </div>
 
-  <div id="content">
-    <span id="close">✕</span>
-    <div id="inner"></div>
+    <div id="content">
+      <span id="close">✕</span>
+      <div id="inner"></div>
+    </div>
+    
+    <div id="scroll-indicator">· · ·</div>
+  </div>
+  
+  <div id="how-it-works">
+    <h2>How re:fresh Works</h2>
+    <p>re:fresh is a Google Workspace Gmail™ add-on designed to help you declare email bankruptcy and manage your inbox by automatically handling older unread emails.</p>
+    
+    <h3>Core Functionality</h3>
+    <p>Once you configure and run the Add-on, it will:</p>
+    <ol>
+      <li><strong>Scan for old unread emails</strong>: Identify all unread Gmail™ threads that are older than a user-defined number of days (you choose the threshold, e.g., 14 days, 30 days, etc.).</li>
+      <li><strong>Send a custom auto-reply</strong>: For each of those threads, send an automatic reply using a custom message that you provide (for example, a message explaining that you haven't responded yet and asking the sender to resend the email if it's still important or urgent).</li>
+      <li><strong>Mark as read and archive</strong>: After sending the auto-reply, mark those email threads as "read" and move them to your Gmail™ archive, removing them from your inbox to help you start fresh.</li>
+      <li><strong>Exclude certain senders</strong>: The Add-on is smart about not replying to certain types of emails. It will skip threads where the last sender is an automated or no-reply address (for instance, notifications from platforms like GitHub, GitLab, Bitbucket, or other system-generated emails).</li>
+      <li><strong>Optional bounce cleanup</strong>: If any auto-reply results in a bounce-back error message, the Add-on can automatically detect and delete those bounce-back emails from your inbox (this option can be enabled or disabled by you).</li>
+    </ol>
+    
+    <p>All of these actions take place within your Gmail™ environment with your authorization. You control the settings (such as the age threshold for emails and the content of the auto-reply message) through the Add-on's interface. The Add-on runs entirely within your Gmail™ account—there are no external servers processing your emails.</p>
   </div>
 
   <script>
@@ -229,6 +323,43 @@
       content.style.display = 'none';
       history.replaceState(null, '', ' ');
     });
+
+    let scrollTriggered = false;
+    
+    setTimeout(() => {
+      document.getElementById('scroll-indicator').style.display = 'block';
+    }, 3000);
+    
+    window.addEventListener('scroll', () => {
+      if (!scrollTriggered && window.scrollY > 50) {
+        document.getElementById('how-it-works').style.opacity = '1';
+        scrollTriggered = true;
+      }
+    });
+    
+    document.querySelector('.tagline').addEventListener('dblclick', () => {
+      document.getElementById('how-it-works').style.opacity = '1';
+      scrollTriggered = true;
+      setTimeout(() => {
+        document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    });
+
+    document.querySelector('.tagline').addEventListener('dblclick', () => {
+    document.getElementById('how-it-works').style.opacity = '1';
+    scrollTriggered = true;
+    setTimeout(() => {
+      document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  });
+
+  document.getElementById('scroll-indicator').addEventListener('dblclick', () => {
+    document.getElementById('how-it-works').style.opacity = '1';
+    scrollTriggered = true;
+    setTimeout(() => {
+      document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  });
   </script>
 </body>
 </html>
